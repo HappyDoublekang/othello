@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="author" content="doubleK">
+    <title>黑白棋</title>
+</head>
+<body>
+    <!-- 创建一个棋盘 -->
+    <div id="container"></div>
+    <script>
+        // 棋盘数据结构：0无子，1黑子，2白子，8*8
+        let board = [
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 1, 2, 0, 0, 0],
+            [0, 0, 0, 2, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+        ]
+
+        let container = document.getElementById("container")
+
+        // 动态生成棋盘
+        for (let y = 0; y < 8; y++) {
+            for (let x = 0; x < 8; x++) {
+                // 动态创建棋盘每个格
+                let element = document.createElement("div")
+                element.style.width = "50px"
+                element.style.height = "50px"
+                element.style.backgroundColor = "darkgreen"
+                element.style.border = "1px solid white"
+                element.style.display = "inline-block"
+                // 解决底部空隙问题
+                element.style.verticalAlign = "bottom"
+                container.appendChild(element)
+
+                // 绘制初始黑白子
+                if (board[y][x] == 1) {
+                    let disc = document.createElement("div")
+                    disc.style.width = "40px"
+                    disc.style.height = "40px"
+                    disc.style.borderRadius = "20px"
+                    disc.style.backgroundColor = "black"
+                    disc.style.margin = "5px"
+                    element.appendChild(disc)
+                }
+                if (board[y][x] == 2) {
+                    let disc = document.createElement("div")
+                    disc.style.width = "40px"
+                    disc.style.height = "40px"
+                    disc.style.borderRadius = "20px"
+                    disc.style.backgroundColor = "white"
+                    disc.style.margin = "5px"
+                    element.appendChild(disc)
+                }
+            }
+            // 每行插入换行符
+            container.appendChild(document.createElement("br"))
+        }
+    </script>
+</body>
+</html>
