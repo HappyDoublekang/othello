@@ -14,7 +14,7 @@
             [0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
-            [0, 0, 0, 1, 2, 0, 0, 0],
+            [0, 0, 0, 1, 2, 2, 2, 0],
             [0, 0, 0, 2, 1, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0, 0],
@@ -44,7 +44,11 @@
                         let hasOpposite = false;
                         // 默认不能吃子
                         let canMove = false;
-                        // 横向
+
+                        if (board[y][x] != 0) {
+                            return;
+                        }
+                        // 右往左横向
                         while(--x >= 0) {
                             // 如果遇到异色就变色
                             if (board[y][x] === 3 - color) {
@@ -63,10 +67,12 @@
                         }
                         // 判断完之后操作棋子变色
                         if(canMove) {
-                            while (++x != ox) {
+                            while (x++ != ox) {
                                 board[y][x] = color;
                             }
-                            board[y][x] = color;
+                            // board[y][x] = color;
+                            // 逆向变色
+                            color = 3 - color;
                         }
                         render();
                     })
