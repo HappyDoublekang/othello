@@ -21,45 +21,89 @@
             [0, 0, 0, 0, 0, 0, 0, 0],
         ]
 
+        let color = 1;
+
         let container = document.getElementById("container")
 
-        // 动态生成棋盘
-        for (let y = 0; y < 8; y++) {
-            for (let x = 0; x < 8; x++) {
-                // 动态创建棋盘每个格
-                let element = document.createElement("div")
-                element.style.width = "50px"
-                element.style.height = "50px"
-                element.style.backgroundColor = "darkgreen"
-                element.style.border = "1px solid white"
-                element.style.display = "inline-block"
-                // 解决底部空隙问题
-                element.style.verticalAlign = "bottom"
-                container.appendChild(element)
+        render()
 
-                // 绘制初始黑白子
-                if (board[y][x] == 1) {
-                    let disc = document.createElement("div")
-                    disc.style.width = "40px"
-                    disc.style.height = "40px"
-                    disc.style.borderRadius = "20px"
-                    disc.style.backgroundColor = "black"
-                    disc.style.margin = "5px"
-                    element.appendChild(disc)
+        function render() {
+            // 每走一格渲染一次dom
+            container.innerHTML = "";
+            // 动态生成棋盘
+            for (let y = 0; y < 8; y++) {
+                for (let x = 0; x < 8; x++) {
+                    // 动态创建棋盘每个格
+                    let element = document.createElement("div")
+                    // 添加点击事件
+                    element.addEventListener("click", (event) => {
+                        // 获取yx坐标
+                        // alert(`${x} ~ ${y}`)
+                        let ox = x, oy = y;
+                        // 如果邻近第一个颜色相同（默认黑色定义color）
+                        let hasOpposite = false;
+                        // 默认不能吃子
+                        let canMove = false;
+                        // 横向
+                        while(--x >= 0) {
+                            // 如果遇到异色就变色
+                            if (board[y][x] === 3 - color) {
+                                hasOpposite = true;
+                            }
+                            // 如果遇到同色就吃子
+                            if (board[y][x] === color) {
+                                if (hasOpposite) {
+                                    canMove = true;
+                                }
+                                break;
+                            }
+                            if (board[y][x] === 0) {
+                                break;
+                            }
+                        }
+                        // 判断完之后操作棋子变色
+                        if(canMove) {
+                            while (++x != ox) {
+                                board[y][x] = color;
+                            }
+                            board[y][x] = color;
+                        }
+                        render();
+                    })
+                    element.style.width = "50px"
+                    element.style.height = "50px"
+                    element.style.backgroundColor = "darkgreen"
+                    element.style.border = "1px solid white"
+                    element.style.display = "inline-block"
+                    // 解决底部空隙问题
+                    element.style.verticalAlign = "bottom"
+                    container.appendChild(element)
+
+                    // 绘制初始黑白子
+                    if (board[y][x] === 1) {
+                        let disc = document.createElement("div")
+                        disc.style.width = "40px"
+                        disc.style.height = "40px"
+                        disc.style.borderRadius = "20px"
+                        disc.style.backgroundColor = "black"
+                        disc.style.margin = "5px"
+                        element.appendChild(disc)
+                    }
+                    if (board[y][x] === 2) {
+                        let disc = document.createElement("div")
+                        disc.style.width = "40px"
+                        disc.style.height = "40px"
+                        disc.style.borderRadius = "20px"
+                        disc.style.backgroundColor = "white"
+                        disc.style.margin = "5px"
+                        element.appendChild(disc)
+                    }
                 }
-                if (board[y][x] == 2) {
-                    let disc = document.createElement("div")
-                    disc.style.width = "40px"
-                    disc.style.height = "40px"
-                    disc.style.borderRadius = "20px"
-                    disc.style.backgroundColor = "white"
-                    disc.style.margin = "5px"
-                    element.appendChild(disc)
-                }
+                // 每行插入换行符
+                container.appendChild(document.createElement("br"))
             }
-            // 每行插入换行符
-            container.appendChild(document.createElement("br"))
         }
+
     </script>
 </body>
 </html>
